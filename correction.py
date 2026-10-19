@@ -49,7 +49,7 @@ class Movie:
                  popularity:float,
                  original_title:str,
                  cast:list,
-                 director:list,
+                 directors:list,
                  keywords:list,
                  runtime:int,
                  genres:list,
@@ -60,7 +60,7 @@ class Movie:
         self.popularity = popularity
         self.original_title = original_title
         self.cast = cast
-        self.director = director
+        self.directors = directors
         self.keywords = keywords
         self.runtime = runtime
         self.genres = genres
@@ -130,5 +130,6 @@ def get_movies_by_directors(movies, director_names):
                                         # (ici, être dans la liste des réalisateurs recherchés). Si c'est le cas, le film est ajouté à la
                                         # liste retournée.
                                         
-print(get_movies_by_directors(get_movies_list(), ["Christopher Nolan", "Jonathan Nolan"]))
+print(get_movies_by_directors(get_movies_list(), ["Obin Olson", "Amariah Olson"]))
+print([movie.original_title for movie in get_movies_by_directors(get_movies_list(), ["Obin Olson", "Amariah Olson"])]) # Pour afficher les titres des films pour vérifier
                                         

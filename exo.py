@@ -6,7 +6,7 @@ with open("tmdb-movies.csv", "r", encoding="utf-8") as fichier:
 
 # Afficher les 3 premiers films
 
-print(data[1:4])
+
 
 # Afficher le titre du 2ème film
 
