@@ -53,8 +53,13 @@ with open("tmdb-movies.csv", "r", encoding="utf-8") as fichier:
 
 
 
+# Créer une fonction qui prend en paramètres une liste d'objets Movie et un nom de film, et qui renvoie l'objet Movie ayant ce nom.
+
+
+
 # Créer une fonction qui prend en paramètre une liste d'objets Movie et qui retourne l'objet Movie correspondant au film le plus populaire
 # (celui avec la plus grande valeur de l'attribut popularity).
+
 
 
 # Créer une fonction qui prend en paramètre une liste d'objets Movie et le nom d'un réalisateurs (str), et qui retourne la liste des films

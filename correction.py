@@ -96,12 +96,20 @@ print(line_to_movie(data[1]).__dict__) # __dict__ permet d'afficher tout les att
 def get_movies_list():
     return [line_to_movie(line) for line in data[1:]]
 
+# Créer une fonction qui prend en paramètres une liste d'objets Movie et un nom de film, et qui renvoie l'objet Movie ayant ce nom.
+
+def get_movie_by_name(movies: list[Movie], name):
+    for movie in movies:
+        if movie.original_title == name:
+            return movie
+    return None
+
 # Créer une fonction qui prend en paramètre une liste d'objets Movie et qui retourne l'objet Movie correspondant au film le plus populaire
 # (celui avec la plus grande valeur de l'attribut popularity).
 
 def get_most_popular_movie(movies):
     return max(movies, key=lambda movie: movie.popularity) # key permet de spécifier la fonction à utiliser pour comparer les éléments de
-                                                           # la liste.Ici, on compare les objets Movie selon leur attribut popularity.
+                                                           # la liste. Ici, on compare les objets Movie selon leur attribut popularity.
 
 print(get_most_popular_movie(get_movies_list()))
 print(get_most_popular_movie(get_movies_list()).original_title) # Pour afficher le titre pour vérifier
