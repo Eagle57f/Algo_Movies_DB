@@ -11,6 +11,7 @@ from PIL import Image, ImageTk
 class SimpleApp:
     PHOTO_WIDTH = 320
     PHOTO_HEIGHT = 420
+    RATING_VALUES = ("g", "pg", "pg_13", "r", "r+", "rx")
 
     def __init__(self, root: tk.Tk):
         self.root = root
@@ -25,10 +26,7 @@ class SimpleApp:
         self.selected_item = None
 
         self.media_type = tk.StringVar(value="Films")
-        self.operation = tk.StringVar(value="Tous les éléments")
-        self.value = tk.StringVar()
-        self.minimum = tk.StringVar()
-        self.maximum = tk.StringVar()
+        self.operation = tk.StringVar(value="Plusieurs critères")
         self.criteria_title = tk.StringVar()
         self.criteria_genre = tk.StringVar()
         self.criteria_studio = tk.StringVar()
@@ -36,6 +34,8 @@ class SimpleApp:
         self.criteria_max_note = tk.StringVar()
         self.criteria_min_year = tk.StringVar()
         self.criteria_max_year = tk.StringVar()
+        self.criteria_min_rating = tk.StringVar(value=self.RATING_VALUES[0])
+        self.criteria_max_rating = tk.StringVar(value=self.RATING_VALUES[-1])
 
         self.create_widgets()
         self.update_operations()
@@ -54,7 +54,7 @@ class SimpleApp:
         ).grid(row=0, column=0, sticky="w")
         ttk.Label(
             main,
-            text="Choisissez un type de contenu et une fonction de get_infos.",
+            text="Combinez plusieurs critères pour trouver un film ou un animé.",
         ).grid(row=1, column=0, sticky="w", pady=(2, 12))
 
         controls = ttk.LabelFrame(main, text="Recherche", padding=10)
@@ -178,31 +178,9 @@ class SimpleApp:
             self.selected_item = None
             self.image_label.configure(image="", text="")
 
-        if self.media_type.get() == "Films":
-            operations = (
-                "Tous les éléments",
-                "Par titre",
-                "Par genre",
-                "Par studio",
-                "Par note",
-                "Par année",
-                "Plusieurs critères",
-                "Par réalisateur",
-                "Par plusieurs réalisateurs",
-                "Le plus populaire",
-            )
-        else:
-            operations = (
-                "Tous les éléments",
-                "Par titre",
-                "Par genre",
-                "Par studio",
-                "Par note",
-                "Par année",
-                "Plusieurs critères",
-            )
+        operations = ("Plusieurs critères",)
         self.operation_box["values"] = operations
-        self.operation.set(operations[0])
+        self.operation.set("Plusieurs critères")
         self.update_inputs()
 
     def change_media_type(self):
@@ -213,62 +191,50 @@ class SimpleApp:
         for widget in self.input_frame.winfo_children():
             widget.destroy()
 
-        operation = self.operation.get()
-        if operation in ("Tous les éléments", "Le plus populaire"):
-            return
-        if operation == "Plusieurs critères":
-            criteria = (
-                ("Titre :", self.criteria_title),
-                ("Genre :", self.criteria_genre),
-                ("Studio :", self.criteria_studio),
-                ("Note min. :", self.criteria_min_note),
-                ("Note max. :", self.criteria_max_note),
-                ("Année min. :", self.criteria_min_year),
-                ("Année max. :", self.criteria_max_year),
+        criteria = (
+            ("Titre :", self.criteria_title),
+            ("Genre :", self.criteria_genre),
+            ("Studio :", self.criteria_studio),
+            ("Note min. :", self.criteria_min_note),
+            ("Note max. :", self.criteria_max_note),
+            ("Année min. :", self.criteria_min_year),
+            ("Année max. :", self.criteria_max_year),
+        )
+        if self.media_type.get() == "Animés":
+            criteria += (
+                ("Rating min. :", self.criteria_min_rating),
+                ("Rating max. :", self.criteria_max_rating),
             )
-            for index, (label, variable) in enumerate(criteria):
-                row, pair = divmod(index, 2)
-                column = pair * 2
-                ttk.Label(self.input_frame, text=label).grid(
-                    row=row,
-                    column=column,
-                    sticky="w",
-                    padx=(0 if column == 0 else 10, 4),
-                    pady=2,
+        for index, (label, variable) in enumerate(criteria):
+            row, pair = divmod(index, 2)
+            column = pair * 2
+            ttk.Label(self.input_frame, text=label).grid(
+                row=row,
+                column=column,
+                sticky="w",
+                padx=(0 if column == 0 else 10, 4),
+                pady=2,
+            )
+            if "Rating" in label:
+                entry = ttk.Combobox(
+                    self.input_frame,
+                    textvariable=variable,
+                    values=("",) + self.RATING_VALUES,
+                    state="readonly",
+                    width=12,
                 )
-                ttk.Entry(
+            else:
+                entry = ttk.Entry(
                     self.input_frame,
                     textvariable=variable,
                     width=12,
-                ).grid(
-                    row=row,
-                    column=column + 1,
-                    sticky="ew",
-                    pady=2,
                 )
-            return
-        if operation in ("Par note", "Par année"):
-            ttk.Label(self.input_frame, text="Minimum :").grid(
-                row=0, column=0, sticky="w"
+            entry.grid(
+                row=row,
+                column=column + 1,
+                sticky="ew",
+                pady=2,
             )
-            ttk.Entry(self.input_frame, textvariable=self.minimum).grid(
-                row=0, column=1, sticky="ew", padx=(8, 20)
-            )
-            ttk.Label(self.input_frame, text="Maximum :").grid(
-                row=0, column=2, sticky="w"
-            )
-            ttk.Entry(self.input_frame, textvariable=self.maximum).grid(
-                row=0, column=3, sticky="ew", padx=(8, 0)
-            )
-            return
-
-        label = "Titre :" if operation == "Par titre" else "Valeur :"
-        ttk.Label(self.input_frame, text=label).grid(
-            row=0, column=0, sticky="w"
-        )
-        ttk.Entry(self.input_frame, textvariable=self.value).grid(
-            row=0, column=1, columnspan=3, sticky="ew", padx=(8, 0)
-        )
 
     def get_collection(self):
         if self.media_type.get() == "Films":
@@ -278,65 +244,39 @@ class SimpleApp:
     def run_search(self):
         try:
             collection = self.get_collection()
-            operation = self.operation.get()
-            if operation == "Tous les éléments":
-                results = collection.get_list()
-            elif operation == "Par titre":
-                item = collection.get_by_name(self.value.get().strip())
-                results = [] if item is None else [item]
-            elif operation == "Par genre":
-                results = collection.get_by_genres(self.value.get().strip())
-            elif operation == "Par studio":
-                results = collection.get_by_studios(self.value.get().strip())
-            elif operation == "Par note":
-                results = collection.get_by_vote_average(
-                    float(self.minimum.get()),
-                    float(self.maximum.get() or 10),
+            criteria = dict(
+                title=self.criteria_title.get().strip(),
+                genres=self.criteria_genre.get().strip() or None,
+                studios=self.criteria_studio.get().strip() or None,
+                min_vote_average=(
+                    float(self.criteria_min_note.get())
+                    if self.criteria_min_note.get().strip()
+                    else None
+                ),
+                max_vote_average=(
+                    float(self.criteria_max_note.get())
+                    if self.criteria_max_note.get().strip()
+                    else None
+                ),
+                min_release_year=(
+                    int(self.criteria_min_year.get())
+                    if self.criteria_min_year.get().strip()
+                    else None
+                ),
+                max_release_year=(
+                    int(self.criteria_max_year.get())
+                    if self.criteria_max_year.get().strip()
+                    else None
+                ),
+            )
+            if self.media_type.get() == "Animés":
+                criteria["min_rating"] = (
+                    self.criteria_min_rating.get().strip() or None
                 )
-            elif operation == "Par année":
-                results = collection.get_by_release_year(
-                    int(self.minimum.get()),
-                    int(self.maximum.get() or 2024),
+                criteria["max_rating"] = (
+                    self.criteria_max_rating.get().strip() or None
                 )
-            elif operation == "Plusieurs critères":
-                results = collection.get_by_criteria(
-                    title=self.criteria_title.get().strip(),
-                    genres=self.criteria_genre.get().strip() or None,
-                    studios=self.criteria_studio.get().strip() or None,
-                    min_vote_average=(
-                        float(self.criteria_min_note.get())
-                        if self.criteria_min_note.get().strip()
-                        else None
-                    ),
-                    max_vote_average=(
-                        float(self.criteria_max_note.get())
-                        if self.criteria_max_note.get().strip()
-                        else None
-                    ),
-                    min_release_year=(
-                        int(self.criteria_min_year.get())
-                        if self.criteria_min_year.get().strip()
-                        else None
-                    ),
-                    max_release_year=(
-                        int(self.criteria_max_year.get())
-                        if self.criteria_max_year.get().strip()
-                        else None
-                    ),
-                )
-            elif operation == "Par réalisateur":
-                results = self.movies.get_movies_by_director(
-                    self.value.get().strip()
-                )
-            elif operation == "Par plusieurs réalisateurs":
-                names = [
-                    name.strip()
-                    for name in self.value.get().split(",")
-                    if name.strip()
-                ]
-                results = self.movies.get_movies_by_directors(names)
-            else:
-                results = [self.movies.get_most_popular()]
+            results = collection.get_by_criteria(**criteria)
 
             self.current_results = results
             self.results.delete(0, tk.END)
