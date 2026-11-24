@@ -305,11 +305,13 @@ QUESTIONS = [
 def ask_get():
     responses = []
     for i in range(len(QUESTIONS)):
+        print()
         print(str(i+1) + ". " + QUESTIONS[i].question)
         for j in range(0,3):
             print("  " + str(j+1) + " - " + QUESTIONS[i].answers[j])
         response = input("Votre choix : ")
         while response not in ["1", "2", "3"]:
+            print()
             print("Mauvaise saisie. Répondez par 1, 2 ou 3.")
             response = input("Votre choix : ")
         responses.append(int(response))
@@ -414,9 +416,11 @@ def knn_movies(movies_vectors, user_vector, k=10):
 def display_best():
     mv = movies_vectors()
     au = ask_user()
+    print()
     print("Les films qui vous correspondent le mieux :")
     for film in knn_movies(mv, au).keys():
         print(film)
+    print()
     print("Si vous voulez avoir des informations sur un film, tapez son titre. Sinon, appuyez sur Enter pour quitter.")
 
     user_input = input("Votre réponse : ")
@@ -428,6 +432,7 @@ def display_best():
                 found = True
                 break
         if found:
+            print()
             print(movie.title)
             print("Genres : " + ", ".join(movie.genres))
             print("Réalisateurs : " + ", ".join(movie.directors))
@@ -435,6 +440,6 @@ def display_best():
             print("Durée : " + str(movie.runtime) + " minutes")
             print("Vote moyen : " + str(movie.vote_average))
         else:
+            print()
             print("Film non trouvé. Veuillez vérifier l'orthographe ou appuyez sur Enter pour quitter.")
         user_input = input("Votre réponse : ")
-

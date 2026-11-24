@@ -74,7 +74,8 @@ class Movies:
 
 def by_attributes():
     movie_list = Movies(movies)
-    
+
+    print()
     print("Pour chaque question, appuyez sur Enter pour passer.")
 
     title_input = input("Quel est le titre de votre film ?\nVotre réponse : ")
@@ -95,8 +96,10 @@ def by_attributes():
             min_vote_average = float(min_vote_average_input)
             if 0 <= min_vote_average <= 10:
                 break
+            print()
             print("La note doit être comprise entre 0 et 10.")
         except ValueError:
+            print()
             print("Veuillez entrer une note comprise entre 0 et 10.")
 
     while True:
@@ -108,8 +111,10 @@ def by_attributes():
             max_vote_average = float(max_vote_average_input)
             if 0 <= max_vote_average <= 10:
                 break
+            print()
             print("La note doit être comprise entre 0 et 10.")
         except ValueError:
+            print()
             print("Veuillez entrer une note comprise entre 0 et 10.")
 
     while True:
@@ -121,8 +126,10 @@ def by_attributes():
             min_release_year = int(min_release_year_input)
             if len(min_release_year_input) == 4:
                 break
+            print()
             print("Veuillez entrer une année valide à quatre chiffres.")
         except ValueError:
+            print()
             print("Veuillez entrer une année valide à quatre chiffres.")
 
     while True:
@@ -134,8 +141,10 @@ def by_attributes():
             max_release_year = int(max_release_year_input)
             if len(max_release_year_input) == 4:
                 break
+            print()
             print("Veuillez entrer une année valide à quatre chiffres.")
         except ValueError:
+            print()
             print("Veuillez entrer une année valide à quatre chiffres.")
     
     
@@ -151,6 +160,7 @@ def by_attributes():
         max_release_year=max_release_year,
     )
 
+    print()
     if len(returned_movies) == 0:
         print("Aucun film ne correspond à vos critères.")
 
@@ -161,6 +171,7 @@ def by_attributes():
         print("Voulez vous préciser vos critères ? (oui/non)")
         user_input = input("Votre réponse : ")
         while user_input not in ["oui", "non"]:
+            print()
             print("Réponse non valide. Veuillez répondre par 'oui' ou 'non'.")
             user_input = input("Votre réponse : ")
         if user_input == "oui":
@@ -169,6 +180,7 @@ def by_attributes():
         print(f"{len(returned_movies)} films correspondent à vos critères. Voici la liste :")
         for i in returned_movies:
             print(i.title)
+        print()
         print("Si vous voulez avoir des informations sur un film, tapez son titre. Sinon, appuyez sur Enter pour quitter.")
 
         user_input = input("Votre réponse : ")
@@ -180,12 +192,15 @@ def by_attributes():
                     found = True
                     break
             if found:
+                print()
                 print(movie.title)
                 print("Genres : " + ", ".join(movie.genres))
                 print("Réalisateurs : " + ", ".join(movie.directors))
                 print("Année de sortie : " + str(movie.release_year))
                 print("Durée : " + str(movie.runtime) + " minutes")
                 print("Vote moyen : " + str(movie.vote_average))
+                print()
             else:
+                print()
                 print("Film non trouvé. Veuillez vérifier l'orthographe ou appuyez sur Enter pour quitter.")
             user_input = input("Votre réponse : ")
