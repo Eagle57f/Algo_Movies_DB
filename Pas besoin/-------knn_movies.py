@@ -7,7 +7,6 @@ import pandas as pd
 
 import get_infos
 
-
 TAGS = [
     "Thriller", "War", "Action", "Western", "Comedy", "Fantasy",
     "Foreign", "Family", "TV Movie", "Science Fiction", "Documentary",
