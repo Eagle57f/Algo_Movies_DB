@@ -163,5 +163,41 @@ class Animes:
 
 
 def by_attributes():
-    animes = Animes()
-    animes.get_by_criteria()
+    movies_list = Movies(movies)
+    
+    print("Pour chaque question, appuyez sur Enter pour passer.")
+
+    title_input = input("Quel est le titre de votre film ?\nVotre réponse : ")
+    title = title_input if title_input != "" else None
+    
+    genres_input = input("Donnez un ou plusieurs genres de votre film. Séparez les genres par '|'.\nVotre réponse : ")
+    genres = genres_input.split('|') if genres_input != "" else None
+    
+    studio_input = input("Quel est le studio de votre film ?\nVotre réponse : ")
+    studio = studio_input if studio_input != "" else None
+
+    min_vote_average_input = input("Quel est le vote moyen minimum de votre film ?\nVotre réponse : ")
+    min_vote_average = float(min_vote_average_input) if min_vote_average_input != "" else None
+
+    max_vote_average_input = input("Quel est le vote moyen maximum de votre film ?\nVotre réponse : ")
+    max_vote_average = float(max_vote_average_input) if max_vote_average_input != "" else None
+
+    min_release_year_input = input("Quel est l'année de sortie minimum de votre film ?\nVotre réponse : ")
+    min_release_year = int(min_release_year_input) if min_release_year_input != "" else None
+
+    max_release_year_input = input("Quel est l'année de sortie maximum de votre film ?\nVotre réponse : ")
+    max_release_year = int(max_release_year_input) if max_release_year_input != "" else None
+    
+    
+
+    
+    returned_movies = movies_list.get_by_criteria(
+        title=title,
+        genres=genres,
+        studios=studio,
+        min_vote_average=min_vote_average,
+        max_vote_average=max_vote_average,
+        min_release_year=min_release_year,
+        max_release_year=max_release_year,
+    )
+    
