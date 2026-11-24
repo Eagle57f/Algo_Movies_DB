@@ -5,7 +5,7 @@ from typing import Dict, List, Mapping, Sequence
 import numpy as np
 import pandas as pd
 
-import get_infos
+import by_attributes
 
 TAGS = [
     "Thriller", "War", "Action", "Western", "Comedy", "Fantasy",
@@ -198,7 +198,7 @@ def movie_matrix(movies: pd.DataFrame, tags_column: str = "genres"):
 
 
 def load_movies() -> pd.DataFrame:
-    loaded_movies = get_infos.Movies(get_infos.movies).list
+    loaded_movies = by_attributes.Movies(by_attributes.movies).list
     return pd.DataFrame(
         {
             "title": [movie.title for movie in loaded_movies],

@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 
 import analysis
-import get_infos
+import by_attributes
 
 
 def afficher_genres_par_annee(
@@ -107,7 +107,7 @@ def afficher_genres_films_par_annee(
 
 
 if __name__ == "__main__":
-    animes = get_infos.Animes(get_infos.animes).list
+    animes = by_attributes.Animes(by_attributes.animes).list
     afficher_genres_par_annee(animes)
-    films = get_infos.Movies(get_infos.movies).list
+    films = by_attributes.Movies(by_attributes.movies).list
     afficher_genres_films_par_annee(films)

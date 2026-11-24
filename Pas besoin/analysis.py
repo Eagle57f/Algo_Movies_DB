@@ -1,4 +1,4 @@
-import get_infos
+import by_attributes
 
 ANNEE_MIN_DEFAUT = 1960
 ANNEE_MAX_DEFAUT = 2022
@@ -64,7 +64,7 @@ def genres_par_ranking(
     annee_max=ANNEE_MAX_DEFAUT,
 ):
     animes = filtrer_par_annee(animes, annee_min, annee_max)
-    ratings = get_infos.Animes.RATING_ORDER
+    ratings = by_attributes.Animes.RATING_ORDER
     if ranking is None:
         ratings_a_analyser = ratings
     elif isinstance(ranking, str):
@@ -173,8 +173,8 @@ def afficher_genres(resultat):
 
 
 
-animes = get_infos.Animes(get_infos.animes).list
-films = get_infos.Movies(get_infos.movies).list
+animes = by_attributes.Animes(by_attributes.animes).list
+films = by_attributes.Movies(by_attributes.movies).list
 
 # afficher_genres(genres_par_ranking(animes, "r", nombre=5))
 # afficher_genres(

@@ -17,12 +17,6 @@ class Question:
         self.answers = answers
         self.weights = weights
 
-
-
-def weights(**values: float):
-    return {tag: float(value) for tag, value in values.items()}
-
-
 QUESTIONS = [
     Question(
         "Dans une ville inconnue, que voulez-vous découvrir ?",
@@ -32,9 +26,9 @@ QUESTIONS = [
             "Des habitants et leur quotidien",
         ],
         [
-            weights(Crime=1, Mystery=.9, Thriller=.7),
-            weights(Fantasy=1, Horror=.6, Mystery=.5),
-            weights(Drama=.8, Documentary=.5, Foreign=.4),
+            {"Crime": 1, "Mystery": .9, "Thriller": .7},
+            {"Fantasy": 1, "Horror": .6, "Mystery": .5},
+            {"Drama": .8, "Documentary": .5, "Foreign": .4},
         ],
     ),
 
@@ -46,9 +40,9 @@ QUESTIONS = [
             "Un monde qui s'effondre à cause de la technologie",
         ],
         [
-            weights(War=1, Action=.7, Drama=.6),
-            weights(Thriller=1, Horror=.7, Mystery=.6),
-            weights(**{"Science Fiction": 1, "Thriller": .7, "Drama": .5}),
+            {"War": 1, "Action": .7, "Drama": .6},
+            {"Thriller": 1, "Horror": .7, "Mystery": .6},
+            {"Science Fiction": 1, "Thriller": .7, "Drama": .5},
         ],
     ),
 
@@ -60,9 +54,9 @@ QUESTIONS = [
             "Une histoire d'amour compliquée",
         ],
         [
-            weights(Comedy=1, Family=.3),
-            weights(Adventure=1, Fantasy=.8, Action=.6),
-            weights(Romance=1, Drama=.8),
+            {"Comedy": 1, "Family": .3},
+            {"Adventure": 1, "Fantasy": .8, "Action": .6},
+            {"Romance": 1, "Drama": .8},
         ],
     ),
 
@@ -74,9 +68,9 @@ QUESTIONS = [
             "Une personne ordinaire qui découvre un pouvoir extraordinaire",
         ],
         [
-            weights(Mystery=1, Crime=.8, Drama=.5),
-            weights(War=.9, Action=.9, Drama=.7),
-            weights(Fantasy=.9, Adventure=.8, Family=.3),
+            {"Mystery": 1, "Crime": .8, "Drama": .5},
+            {"War": .9, "Action": .9, "Drama": .7},
+            {"Fantasy": .9, "Adventure": .8, "Family": .3},
         ],
     ),
 
@@ -88,9 +82,9 @@ QUESTIONS = [
             "Dans l'Ouest américain du XIXe siècle",
         ],
         [
-            weights(Foreign=1, Drama=.5, Documentary=.4),
-            weights(**{"Science Fiction": 1, "Adventure": .8, "Fantasy": .5}),
-            weights(Western=1, Action=.7, Drama=.5),
+            {"Foreign": 1, "Drama": .5, "Documentary": .4},
+            {"Science Fiction": 1, "Adventure": .8, "Fantasy": .5},
+            {"Western": 1, "Action": .7, "Drama": .5},
         ],
     ),
 
@@ -102,9 +96,9 @@ QUESTIONS = [
             "Être profondément ému",
         ],
         [
-            weights(Comedy=1),
-            weights(Horror=1, Thriller=.8, Mystery=.4),
-            weights(Drama=1, Romance=.5, War=.3),
+            {"Comedy": 1},
+            {"Horror": 1, "Thriller": .8, "Mystery": .4},
+            {"Drama": 1, "Romance": .5, "War": .3},
         ],
     ),
 
@@ -116,9 +110,9 @@ QUESTIONS = [
             "Une banlieue familiale en apparence parfaite",
         ],
         [
-            weights(Horror=.9, Mystery=.9, Thriller=.7),
-            weights(Adventure=1, Fantasy=.7, Action=.5),
-            weights(Drama=.8, Mystery=.7, Crime=.5),
+            {"Horror": .9, "Mystery": .9, "Thriller": .7},
+            {"Adventure": 1, "Fantasy": .7, "Action": .5},
+            {"Drama": .8, "Mystery": .7, "Crime": .5},
         ],
     ),
 
@@ -130,9 +124,9 @@ QUESTIONS = [
             "L'humanité contre une intelligence artificielle",
         ],
         [
-            weights(Drama=1, Romance=.6, Crime=.4),
-            weights(Action=.9, Thriller=.9, Crime=.7),
-            weights(**{"Science Fiction": 1, "Thriller": .7, "Drama": .5}),
+            {"Drama": 1, "Romance": .6, "Crime": .4},
+            {"Action": .9, "Thriller": .9, "Crime": .7},
+            {"Science Fiction": 1, "Thriller": .7, "Drama": .5},
         ],
     ),
 
@@ -144,9 +138,9 @@ QUESTIONS = [
             "Une aventure légère avec des héros attachants",
         ],
         [
-            weights(Animation=1, Comedy=.7, Family=.7, Fantasy=.4),
-            weights(Documentary=1),
-            weights(Adventure=.8, Family=.8, Comedy=.5),
+            {"Animation": 1, "Comedy": .7, "Family": .7, "Fantasy": .4},
+            {"Documentary": 1},
+            {"Adventure": .8, "Family": .8, "Comedy": .5},
         ],
     ),
 
@@ -158,9 +152,9 @@ QUESTIONS = [
             "Une famille qui cache un lourd secret",
         ],
         [
-            weights(Romance=1, Drama=.8),
-            weights(Horror=.7, Thriller=.7, Action=.6, Drama=.5),
-            weights(Drama=.9, Mystery=.8, Crime=.5),
+            {"Romance": 1, "Drama": .8},
+            {"Horror": .7, "Thriller": .7, "Action": .6, "Drama": .5},
+            {"Drama": .9, "Mystery": .8, "Crime": .5},
         ],
     ),
 
@@ -172,9 +166,9 @@ QUESTIONS = [
             "Un parent maladroit mais attachant",
         ],
         [
-            weights(Western=.9, Crime=.8, Action=.5),
-            weights(**{"Science Fiction": .9, "Mystery": .6, "Drama": .4}),
-            weights(Family=1, Comedy=.8, Drama=.4),
+            {"Western": .9, "Crime": .8, "Action": .5},
+            {"Science Fiction": .9, "Mystery": .6, "Drama": .4},
+            {"Family": 1, "Comedy": .8, "Drama": .4},
         ],
     ),
 
@@ -186,9 +180,9 @@ QUESTIONS = [
             "Un film d'animation visuellement spectaculaire",
         ],
         [
-            weights(Family=1, Fantasy=.8, Adventure=.8),
-            weights(Comedy=1, Family=.6),
-            weights(Animation=1, Fantasy=.7, Adventure=.6),
+            {"Family": 1, "Fantasy": .8, "Adventure": .8},
+            {"Comedy": 1, "Family": .6},
+            {"Animation": 1, "Fantasy": .7, "Adventure": .6},
         ],
     ),
 
@@ -200,9 +194,9 @@ QUESTIONS = [
             "Un signal venu d'une autre planète",
         ],
         [
-            weights(Mystery=1, Thriller=.8, Crime=.7),
-            weights(Horror=1, Mystery=.8, Fantasy=.4),
-            weights(**{"Science Fiction": 1, "Mystery": .8, "Adventure": .5}),
+            {"Mystery": 1, "Thriller": .8, "Crime": .7},
+            {"Horror": 1, "Mystery": .8, "Fantasy": .4},
+            {"Science Fiction": 1, "Mystery": .8, "Adventure": .5},
         ],
     ),
 
@@ -214,9 +208,9 @@ QUESTIONS = [
             "Des chansons entraînantes dans une comédie",
         ],
         [
-            weights(Music=1, Drama=.6, Romance=.5),
-            weights(War=.8, Action=.8, Music=.7),
-            weights(Music=.8, Comedy=.9),
+            {"Music": 1, "Drama": .6, "Romance": .5},
+            {"War": .8, "Action": .8, "Music": .7},
+            {"Music": .8, "Comedy": .9},
         ],
     ),
 
@@ -228,9 +222,9 @@ QUESTIONS = [
             "Une petite ville réaliste avec des personnages complexes",
         ],
         [
-            weights(Fantasy=1, Adventure=.8, Animation=.3),
-            weights(**{"Science Fiction": 1, "Thriller": .8, "Drama": .5}),
-            weights(Drama=.9, Foreign=.4, Mystery=.4),
+            {"Fantasy": 1, "Adventure": .8, "Animation": .3},
+            {"Science Fiction": 1, "Thriller": .8, "Drama": .5},
+            {"Drama": .9, "Foreign": .4, "Mystery": .4},
         ],
     ),
 
@@ -242,9 +236,9 @@ QUESTIONS = [
             "La vie quotidienne de personnes oubliées",
         ],
         [
-            weights(War=1, Drama=.8, Action=.6),
-            weights(Western=.9, Adventure=.8, Drama=.5),
-            weights(Documentary=1, Drama=.6, Foreign=.5),
+            {"War": 1, "Drama": .8, "Action": .6},
+            {"Western": .9, "Adventure": .8, "Drama": .5},
+            {"Documentary": 1, "Drama": .6, "Foreign": .5},
         ],
     ),
 
@@ -256,9 +250,9 @@ QUESTIONS = [
             "Voir deux adversaires se préparer à s'affronter",
         ],
         [
-            weights(Mystery=.9, Thriller=1, Drama=.5),
-            weights(Horror=1, Thriller=.8),
-            weights(Action=1, War=.7, Western=.4),
+            {"Mystery": .9, "Thriller": 1, "Drama": .5},
+            {"Horror": 1, "Thriller": .8},
+            {"Action": 1, "War": .7, "Western": .4},
         ],
     ),
 
@@ -270,9 +264,9 @@ QUESTIONS = [
             "Une relation drôle, chaotique et imprévisible",
         ],
         [
-            weights(Romance=1, Drama=.8),
-            weights(Romance=.9, Fantasy=.8, Drama=.6),
-            weights(Romance=.8, Comedy=.9),
+            {"Romance": 1, "Drama": .8},
+            {"Romance": .9, "Fantasy": .8, "Drama": .6},
+            {"Romance": .8, "Comedy": .9},
         ],
     ),
 
@@ -284,9 +278,9 @@ QUESTIONS = [
             "Une histoire de science-fiction sur l'avenir de l'humanité",
         ],
         [
-            weights(Documentary=1, Drama=.5),
-            weights(War=.9, Drama=1, Foreign=.5),
-            weights(**{"Science Fiction": 1, "Drama": .7, "Mystery": .4}),
+            {"Documentary": 1, "Drama": .5},
+            {"War": .9, "Drama": 1, "Foreign": .5},
+            {"Science Fiction": 1, "Drama": .7, "Mystery": .4},
         ],
     ),
 
@@ -298,9 +292,9 @@ QUESTIONS = [
             "Ne plus oser éteindre la lumière",
         ],
         [
-            weights(Mystery=1, Crime=.8, Thriller=.8),
-            weights(Comedy=1, Family=.5, Romance=.3),
-            weights(Horror=1, Thriller=.8, Mystery=.6),
+            {"Mystery": 1, "Crime": .8, "Thriller": .8},
+            {"Comedy": 1, "Family": .5, "Romance": .3},
+            {"Horror": 1, "Thriller": .8, "Mystery": .6},
         ],
     ),
 ]
@@ -376,7 +370,7 @@ def ask_user():
 
 
 
-from get_infos import Movie, Movies, movies
+from by_attributes import Movie, Movies, movies
 
 
 movies_list = Movies(movies)
@@ -425,5 +419,3 @@ def display_best():
     for film in knn_movies(mv, au).keys():
         print(film)
 
-
-display_best()

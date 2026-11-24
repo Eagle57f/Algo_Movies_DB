@@ -160,3 +160,8 @@ class Animes:
                 )
             )
         ]
+
+
+def by_attributes():
+    animes = Animes()
+    animes.get_by_criteria()

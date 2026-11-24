@@ -5,7 +5,7 @@ from tkinter import messagebox, ttk
 from urllib.error import URLError
 from urllib.request import urlopen
 
-import get_infos
+import by_attributes
 from PIL import Image, ImageTk
 
 class SimpleApp:
@@ -19,8 +19,8 @@ class SimpleApp:
         self.root.geometry("1000x760")
         self.root.minsize(900, 720)
 
-        self.movies = get_infos.Movies(get_infos.movies)
-        self.animes = get_infos.Animes(get_infos.animes)
+        self.movies = by_attributes.Movies(by_attributes.movies)
+        self.animes = by_attributes.Animes(by_attributes.animes)
         self.current_results = []
         self.image_cache = {}
         self.selected_item = None
@@ -306,7 +306,7 @@ class SimpleApp:
         self.details.configure(state="disabled")
         self.image_label.configure(image="", text="")
 
-        if isinstance(item, get_infos.Anime):
+        if isinstance(item, by_attributes.Anime):
             cached_image = self.image_cache.get(item.picture)
             if cached_image is not None:
                 self.image_label.configure(image=cached_image)

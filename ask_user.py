@@ -232,7 +232,7 @@ def ask_user():
 
 
 
-from get_infos import Movie, Movies, movies
+from by_attributes import Movie, Movies, movies
 
 
 movies_list = Movies(movies)
