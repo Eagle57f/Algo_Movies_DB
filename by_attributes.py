@@ -8,10 +8,6 @@ with open(DATA_DIR / "movies.csv", "r", encoding="utf-8") as fichier:
     reader = csv.reader(fichier)
     movies = list(reader)
 
-with open(DATA_DIR / "animes.csv", "r", encoding="utf-8") as fichier:
-    reader = csv.reader(fichier)
-    animes = list(reader)
-
 
 
 
@@ -49,12 +45,13 @@ class Movies:
             genres = [genres]
         if isinstance(studios, str):
             studios = [studios]
-
+        genres_lowered = [genre.lower() for genre in genres] if genres else []
+        studios_lowered = [studio.lower() for studio in studios] if studios else []
         return [
             item for item in self.list
             if (not title or title.lower() in item.title.lower())
-            and (not genres or all(genre in item.genres for genre in genres))
-            and (not studios or all(studio in item.studios for studio in studios))
+            and (not genres or all(genre.lower() in genres_lowered for genre in genres))
+            and (not studios or all(studio.lower() in studios_lowered for studio in studios))
             and (
                 min_vote_average is None
                 or item.vote_average >= min_vote_average
@@ -73,97 +70,10 @@ class Movies:
             )
         ]
 
-
-class Anime:
-    def __init__(self, line: list):
-        self.title = line[0]
-        self.status = line[1]
-        self.media_type = line[2]
-        self.num_episodes = int(line[3])
-        self.vote_average = float(line[4])
-        self.source = line[5]
-        self.rating = line[6]
-        self.release_year = int(line[7])
-        self.genres = ast.literal_eval(line[8])
-        self.studios = ast.literal_eval(line[9])
-        self.picture = line[10]
-
-
-class Animes:
-    RATING_ORDER = ("g", "pg", "pg_13", "r", "r+", "rx")
-
-    def __init__(self, data):
-        self.list = [Anime(line) for line in data[1:] if len(line) == 11]
-
-    def get_by_criteria(
-        self,
-        title: str = "",
-        genres=None,
-        studios=None,
-        min_vote_average=None,
-        max_vote_average=None,
-        min_release_year=None,
-        max_release_year=None,
-        min_rating=None,
-        max_rating=None,
-    ):
-        if isinstance(genres, str):
-            genres = [genres]
-        if isinstance(studios, str):
-            studios = [studios]
-        min_rating_index = (
-            self.RATING_ORDER.index(min_rating)
-            if min_rating in self.RATING_ORDER
-            else None
-        )
-        max_rating_index = (
-            self.RATING_ORDER.index(max_rating)
-            if max_rating in self.RATING_ORDER
-            else None
-        )
-
-        return [
-            item for item in self.list
-            if (not title or title.lower() in item.title.lower())
-            and (not genres or all(genre in item.genres for genre in genres))
-            and (not studios or all(studio in item.studios for studio in studios))
-            and (
-                min_vote_average is None
-                or item.vote_average >= min_vote_average
-            )
-            and (
-                max_vote_average is None
-                or item.vote_average <= max_vote_average
-            )
-            and (
-                min_release_year is None
-                or item.release_year >= min_release_year
-            )
-            and (
-                max_release_year is None
-                or item.release_year <= max_release_year
-            )
-            and (
-                min_rating_index is None
-                or (
-                    item.rating in self.RATING_ORDER
-                    and self.RATING_ORDER.index(item.rating)
-                    >= min_rating_index
-                )
-            )
-            and (
-                max_rating_index is None
-                or (
-                    item.rating in self.RATING_ORDER
-                    and self.RATING_ORDER.index(item.rating)
-                    <= max_rating_index
-                )
-            )
-        ]
 
 
 def by_attributes():
-    movies_list = Movies(movies)
+    movie_list = Movies(movies)
     
     print("Pour chaque question, appuyez sur Enter pour passer.")
 
@@ -176,22 +86,62 @@ def by_attributes():
     studio_input = input("Quel est le studio de votre film ?\nVotre réponse : ")
     studio = studio_input if studio_input != "" else None
 
-    min_vote_average_input = input("Quel est le vote moyen minimum de votre film ?\nVotre réponse : ")
-    min_vote_average = float(min_vote_average_input) if min_vote_average_input != "" else None
+    while True:
+        min_vote_average_input = input("Quel est le vote moyen minimum de votre film ?\nVotre réponse : ")
+        if min_vote_average_input == "":
+            min_vote_average = None
+            break
+        try:
+            min_vote_average = float(min_vote_average_input)
+            if 0 <= min_vote_average <= 10:
+                break
+            print("La note doit être comprise entre 0 et 10.")
+        except ValueError:
+            print("Veuillez entrer une note comprise entre 0 et 10.")
 
-    max_vote_average_input = input("Quel est le vote moyen maximum de votre film ?\nVotre réponse : ")
-    max_vote_average = float(max_vote_average_input) if max_vote_average_input != "" else None
+    while True:
+        max_vote_average_input = input("Quel est le vote moyen maximum de votre film ?\nVotre réponse : ")
+        if max_vote_average_input == "":
+            max_vote_average = None
+            break
+        try:
+            max_vote_average = float(max_vote_average_input)
+            if 0 <= max_vote_average <= 10:
+                break
+            print("La note doit être comprise entre 0 et 10.")
+        except ValueError:
+            print("Veuillez entrer une note comprise entre 0 et 10.")
 
-    min_release_year_input = input("Quel est l'année de sortie minimum de votre film ?\nVotre réponse : ")
-    min_release_year = int(min_release_year_input) if min_release_year_input != "" else None
+    while True:
+        min_release_year_input = input("Quel est l'année de sortie minimum de votre film ?\nVotre réponse : ")
+        if min_release_year_input == "":
+            min_release_year = None
+            break
+        try:
+            min_release_year = int(min_release_year_input)
+            if len(min_release_year_input) == 4:
+                break
+            print("Veuillez entrer une année valide à quatre chiffres.")
+        except ValueError:
+            print("Veuillez entrer une année valide à quatre chiffres.")
 
-    max_release_year_input = input("Quel est l'année de sortie maximum de votre film ?\nVotre réponse : ")
-    max_release_year = int(max_release_year_input) if max_release_year_input != "" else None
+    while True:
+        max_release_year_input = input("Quel est l'année de sortie maximum de votre film ?\nVotre réponse : ")
+        if max_release_year_input == "":
+            max_release_year = None
+            break
+        try:
+            max_release_year = int(max_release_year_input)
+            if len(max_release_year_input) == 4:
+                break
+            print("Veuillez entrer une année valide à quatre chiffres.")
+        except ValueError:
+            print("Veuillez entrer une année valide à quatre chiffres.")
     
     
 
     
-    returned_movies = movies_list.get_by_criteria(
+    returned_movies = movie_list.get_by_criteria(
         title=title,
         genres=genres,
         studios=studio,
@@ -200,4 +150,42 @@ def by_attributes():
         min_release_year=min_release_year,
         max_release_year=max_release_year,
     )
-    
+
+    if len(returned_movies) == 0:
+        print("Aucun film ne correspond à vos critères.")
+
+    elif len(returned_movies) > 20:
+        print(f"{len(returned_movies)} films correspondent à vos critères. Voici les 20 premiers :")
+        for i in returned_movies[:20]:
+            print(i.title)
+        print("Voulez vous préciser vos critères ? (oui/non)")
+        user_input = input("Votre réponse : ")
+        while user_input not in ["oui", "non"]:
+            print("Réponse non valide. Veuillez répondre par 'oui' ou 'non'.")
+            user_input = input("Votre réponse : ")
+        if user_input == "oui":
+            by_attributes()
+    else:
+        print(f"{len(returned_movies)} films correspondent à vos critères. Voici la liste :")
+        for i in returned_movies:
+            print(i.title)
+        print("Si vous voulez avoir des informations sur un film, tapez son titre. Sinon, appuyez sur Enter pour quitter.")
+
+        user_input = input("Votre réponse : ")
+
+        while user_input != "":
+            found = False
+            for movie in movie_list.list:
+                if movie.title.lower() == user_input.lower():
+                    found = True
+                    break
+            if found:
+                print(movie.title)
+                print("Genres : " + ", ".join(movie.genres))
+                print("Réalisateurs : " + ", ".join(movie.directors))
+                print("Année de sortie : " + str(movie.release_year))
+                print("Durée : " + str(movie.runtime) + " minutes")
+                print("Vote moyen : " + str(movie.vote_average))
+            else:
+                print("Film non trouvé. Veuillez vérifier l'orthographe ou appuyez sur Enter pour quitter.")
+            user_input = input("Votre réponse : ")

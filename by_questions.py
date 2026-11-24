@@ -1,5 +1,7 @@
 import math
+from by_attributes import Movies, movies
 
+movie_list = Movies(movies).list
 
 TAGS = [
     "Thriller", "War", "Action", "Western", "Comedy", "Fantasy",
@@ -370,9 +372,6 @@ def ask_user():
 
 
 
-from by_attributes import Movie, Movies, movies
-
-
 movies_list = Movies(movies)
 def movies_vectors():
     movies_tags = {}
@@ -418,4 +417,24 @@ def display_best():
     print("Les films qui vous correspondent le mieux :")
     for film in knn_movies(mv, au).keys():
         print(film)
+    print("Si vous voulez avoir des informations sur un film, tapez son titre. Sinon, appuyez sur Enter pour quitter.")
+
+    user_input = input("Votre réponse : ")
+    
+    while user_input != "":
+        found = False
+        for movie in movie_list:
+            if movie.title.lower() == user_input.lower():
+                found = True
+                break
+        if found:
+            print(movie.title)
+            print("Genres : " + ", ".join(movie.genres))
+            print("Réalisateurs : " + ", ".join(movie.directors))
+            print("Année de sortie : " + str(movie.release_year))
+            print("Durée : " + str(movie.runtime) + " minutes")
+            print("Vote moyen : " + str(movie.vote_average))
+        else:
+            print("Film non trouvé. Veuillez vérifier l'orthographe ou appuyez sur Enter pour quitter.")
+        user_input = input("Votre réponse : ")
 
