@@ -1,5 +1,4 @@
 import math
-from movies_vector import movies_vectors
 
 
 TAGS = [
@@ -177,6 +176,8 @@ def ask_get():
     return responses
 
 
+
+
 def responses_to_weight_dict(responses):
     responses_weights_dict = {}
     for i in range(len(responses)):
@@ -231,6 +232,20 @@ def ask_user():
 
 
 
+from get_infos import Movie, Movies, movies
+
+
+movies_list = Movies(movies)
+def movies_vectors():
+    movies_tags = {}
+    for film in movies_list.list:
+        movies_tags[film.title] = {}
+        for tag in film.genres:
+            movies_tags[film.title][tag] = 1
+    
+    return movies_tags
+
+
 
 
 
@@ -258,4 +273,13 @@ def knn_movies(movies_vectors, user_vector, k=10):
 
 
 
-print(knn_movies(movies_vectors(), ask_user()))
+
+def display_best():
+    mv = movies_vectors()
+    au = ask_user()
+    print("Les films qui vous correspondent le mieux :")
+    for film in knn_movies(mv, au).keys():
+        print(film)
+
+
+display_best()
